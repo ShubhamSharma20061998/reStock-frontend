@@ -1,0 +1,42 @@
+.formContainer {
+  width: 85%;
+  height: 65%;
+  border-radius: 1rem;
+  box-shadow: 20px 20px 60px #bebebe, -20px -20px 60px #ffffff;
+  background-color: #f1efff;
+}
+.heading_h1 {
+  color: #5c44ff;
+  margin: 0 ;
+}
+.inputField,
+.submitButton {
+  width: 25rem !important;
+}
+.submitButton:hover {
+  background-color: #ff345d !important;
+}
+.inputField {
+  margin-bottom: 0.5rem !important;
+}
+.registrationForm {
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 0rem;
+}
+.registrationSideImage {
+  border-radius: 1rem 0rem 0rem 1rem;
+  background-image: url("../../assets/undraw_enter_uhqk.png");
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+}
+.container {
+  width: 100%;
+  height: 97vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
