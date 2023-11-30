@@ -10,7 +10,6 @@ export const startShopRegistration = ({ formData, resetForm, navigate }) => {
         navigate(`/shop/${response.data.newShop._id}`);
       }
     } catch (err) {
-      console.log(err);
       dispatch(setServerErrors(err.response.data.errors));
     }
   };

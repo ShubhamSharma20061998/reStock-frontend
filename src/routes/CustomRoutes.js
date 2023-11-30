@@ -9,28 +9,28 @@ import CreateProductForm from "../components/products/CreateProductForm";
 
 const CustomRoutes = () => {
   let myRoutes = useRoutes([
-    // {
-    //   path: "/",
-    //   element: <LoginForm />,
-    // },
-    // {
-    //   path: "/register",
-    //   element: <Register />,
-    // },
-    // {
-    //   path: "/landingPage",
-    //   element: <PostLoginPage />,
-    // },
-    // {
-    //   path: "/registerShop",
-    //   element: <ShopRegisterForm />,
-    // },
-    // {
-    //   path: "/shop/:id",
-    //   element: <SingleShop />,
-    // },
     {
       path: "/",
+      element: <LoginForm />,
+    },
+    {
+      path: "/register",
+      element: <Register />,
+    },
+    {
+      path: "/landingPage",
+      element: <PostLoginPage />,
+    },
+    {
+      path: "/registerShop",
+      element: <ShopRegisterForm />,
+    },
+    {
+      path: "/shop/:id",
+      element: <SingleShop />,
+    },
+    {
+      path: "/create_producr",
       element: <CreateProductForm />,
     },
   ]);

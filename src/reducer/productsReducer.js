@@ -8,6 +8,9 @@ export default function productsReducer(state = initialState, action) {
     case "GET_PRODUCTS": {
       return { ...state, products: action.payload };
     }
+    case "ADD_PRODUCT": {
+      return { ...state, products: [...state.products, action.payload] };
+    }
     default: {
       return { ...state };
     }
