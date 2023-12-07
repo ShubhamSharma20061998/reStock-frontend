@@ -5,26 +5,13 @@ import { useParams } from "react-router-dom";
 import Card from "@mui/material/Card";
 
 const SingleShop = () => {
-  // const { id } = useParams();
-  // const data = useSelector(state => {
-  //   return state.shops.shopsList.find(el => {
-  //     return el._id == id;
-  //   });
-  // });
-  const data = {
-    _id: "6565e67df01ca2a00135b44a",
-    shopName: "asdsadas",
-    ownerFirstName: "asdsdadsa",
-    ownerLastName: "sadsadsad",
-    email: "ssshubhamsharma1234@gmail.com",
-    contact: 7004299656,
-    alternateContact: 7004299656,
-    gstNo: "22AAAAA0000A1Z5",
-    owner: "6564297e72534bb7f86a6322",
-    createdAt: "2023-11-28T13:09:17.930Z",
-    updatedAt: "2023-11-28T13:09:17.930Z",
-    __v: 0,
-  };
+  const { id } = useParams();
+  const data = useSelector(state => {
+    return state.shops.shopsList?.find(el => {
+      return el._id == id;
+    });
+  });
+
   const [shopName, setShopName] = useState(
     Boolean(data.shopName) ? data.shopName : ""
   );
@@ -137,7 +124,6 @@ const SingleShop = () => {
       email,
       alternateContact,
     };
-    console.log(formData);
   };
   return (
     <Container>

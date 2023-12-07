@@ -14,7 +14,6 @@ const Register = () => {
 
   const selectedUserData = useSelector(state => state.users.serverErrors);
   const data = useMemo(() => selectedUserData, [selectedUserData]);
-  console.log(data);
   const redirect = () => {
     navigate("/");
   };

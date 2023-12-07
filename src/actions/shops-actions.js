@@ -1,9 +1,9 @@
-import axios from "../config/axios";
+import Axios from "../config/axios";
 
 export const startShopRegistration = ({ formData, resetForm, navigate }) => {
   return async dispatch => {
     try {
-      const response = await axios.post("/api/create_shop", formData);
+      const response = await Axios.post("/api/create_shop", formData);
       if (response.status == 200) {
         dispatch(add_shop(response.data.newShop));
         resetForm();
@@ -23,7 +23,7 @@ const setServerErrors = errors => {
 export const startShopsListing = () => {
   return async dispatch => {
     try {
-      const response = await axios.get("/api/getShops");
+      const response = await Axios.get("/api/getShops");
       if ((response.status = 200)) {
         dispatch(setShops(response.data));
       }
@@ -34,4 +34,21 @@ export const startShopsListing = () => {
 };
 const setShops = data => {
   return { type: "GET_ALL_SHOPS", payload: data };
+};
+
+export const startShopDelete = id => {
+  return async dispatch => {
+    try {
+      const response = await Axios.delete(`/api/delete_user/${id}`);
+      if (response.status == 200) {
+        dispatch(removeUser(id));
+      }
+    } catch (err) {
+      console.log(err);
+      // dispatch(setServerErrors(err.response.data.errors));
+    }
+  };
+};
+const removeUser = id => {
+  return { type: "REMOVE_USER", payload: id };
 };

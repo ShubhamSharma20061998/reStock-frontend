@@ -1,4 +1,4 @@
-import axios from "../config/axios";
+import Axios from "../config/axios";
 
 const loggedInUser = user => {
   return { type: "ACTIVE_USER", payload: user };
@@ -7,7 +7,7 @@ const loggedInUser = user => {
 export const startRegisterUser = (formData, resetForm, redirect) => {
   return async dispatch => {
     try {
-      const response = await axios.post("/api/user_register", formData);
+      const response = await Axios.post("/api/user_register", formData);
       if (response.status == 200) {
         resetForm();
         redirect();
@@ -20,7 +20,7 @@ export const startRegisterUser = (formData, resetForm, redirect) => {
 export const startUserLogin = (formData, resetForm, redirect, setToken) => {
   return async dispatch => {
     try {
-      const response = await axios.post("/api/login", formData);
+      const response = await Axios.post("/api/login", formData);
       if (response.status == 200) {
         dispatch(loggedInUser(response.data));
         resetForm();
@@ -39,7 +39,7 @@ const setServerErrors = errors => {
 export const startFetchUserList = () => {
   return async dispatch => {
     try {
-      const response = await axios.get("/api/getAllUsers");
+      const response = await Axios.get("/api/getAllUsers");
       if (response.status == 200) {
         dispatch(getAllUsers(response.data));
       }

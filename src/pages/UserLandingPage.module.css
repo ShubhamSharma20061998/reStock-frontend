@@ -1,0 +1,6 @@
+.paginationContainer {
+  padding: 2rem 0;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}

@@ -1,9 +1,9 @@
-import axios from "../config/axios";
-
+import axios from "axios";
+import Axios from "../config/axios";
 export const startGetProducts = () => {
   return async dispatch => {
     try {
-      const response = await axios.get("/api/getProducts");
+      const response = await Axios.get("/api/getProducts");
       dispatch(getAllProducts(response.data));
     } catch (err) {
       dispatch(setServerError(err.response.data.errors));
@@ -19,20 +19,28 @@ const setServerError = errors => {
   return { type: "SET_SERVER_ERRORS", payload: errors };
 };
 
-export const startCreateProduct = ({ formData, resetForm, navigate }) => {
+export const startCreateProduct = ({ newFormData, resetForm, navigate }) => {
   return async dispatch => {
     try {
-      const response = await axios.post("/api/create_product", formData);
+      const response = await axios.post(
+        "http://localhost:3090/api/create_product",
+        newFormData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: localStorage.getItem("token"),
+          },
+        }
+      );
       if (response.status == 200) {
         dispatch(addProduct(response.data));
         resetForm();
-        // navigate(`/product/${response.data.product}`, {
-        //   state: { message: response.data.message },
-        // });
+        navigate(`/product/${response.data.product}`, {
+          state: { message: response.data.message },
+        });
       }
     } catch (error) {
-      console.log(error);
-      // dispatch(setServerError(error.response.data.errors));
+      dispatch(setServerError(error.response.data.errors));
     }
   };
 };

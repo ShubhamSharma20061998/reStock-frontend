@@ -15,6 +15,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import CurrencyRupee from "@mui/icons-material/CurrencyRupee";
 import { startCreateProduct } from "../../actions/products-action";
+import { FilePond, registerPlugin } from "react-filepond";
+// Import FilePond styles
+import "filepond/dist/filepond.min.css";
+// Import the Image EXIF Orientation and Image Preview plugins
+// Note: These need to be installed separately
+import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
+import FilePondPluginImagePreview from "filepond-plugin-image-preview";
+import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
+// Register the plugins
+registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
 const CreateProductForm = () => {
   const dispatch = useDispatch();
@@ -62,15 +72,9 @@ const CreateProductForm = () => {
     setIsNewProducts(false);
     setProductReleaseDate("");
   };
-  const formDataToJSON = formData => {
-    const json = {};
-    formData.forEach((value, key) => {
-      json[key] = value;
-    });
-    return json;
-  };
 
-  const newDataCreation = () => {
+  const handleSubmit = async e => {
+    e.preventDefault();
     const newFormData = new FormData();
     newFormData.append("brandName", brandName);
     newFormData.append("isNewProducts", isNewProducts);
@@ -87,33 +91,7 @@ const CreateProductForm = () => {
     images.forEach(file => {
       newFormData.append("images", file);
     });
-    // Convert FormData to JSON for better logging
-    const jsonData = formDataToJSON(newFormData);
-    console.log(jsonData);
-
-    return newFormData;
-  };
-
-  const handleSubmit = async e => {
-    e.preventDefault();
-    console.log(images);
-    // const formData = {
-    //   images,
-    //   brandName,
-    //   unitType,
-    //   title,
-    //   stocks,
-    //   description,
-    //   // category,
-    //   rating,
-    //   maxOrderUnit,
-    //   minOrderUnit,
-    //   price,
-    //   isNewProducts,
-    //   productReleaseDate,
-    // };
-    // dispatch(startCreateProduct({ newFormData, resetForm, navigate }));
-    console.log(newDataCreation());
+    dispatch(startCreateProduct({ newFormData, resetForm, navigate }));
   };
 
   const textfields = [
@@ -215,26 +193,8 @@ const CreateProductForm = () => {
       stateHandler: setMinOrderUnit,
     },
   ];
-  // const handleFileChange = e => {
-  //   const uploadedFiles = e.target.files;
-  //   setImages(prev => [...prev, ...uploadedFiles]);
-  // };
-
-  // const handleFileChange = e => {
-  //   const uploadedFiles = e.target.files;
-  //   // Create a new array to hold the files
-  //   const newImages = [];
-  //   // Iterate through the FileList and add each file to the array
-  //   for (let i = 0; i < uploadedFiles.length; i++) {
-  //     newImages.push(uploadedFiles[i]);
-  //   }
-  //   // Update the state with the new array of files
-  //   setImages([...images, ...newImages]);
-  // };
-
-  const handleFileChange = e => {
-    const uploadedFiles = e.target.files;
-    setImages(prevImages => [...prevImages, ...Array.from(uploadedFiles)]);
+  const handleImageUpload = images => {
+    setImages(images.map(el => el.file));
   };
   return (
     <Container>
@@ -299,12 +259,13 @@ const CreateProductForm = () => {
                   }
                 )}
                 <Grid item>
-                  <input
-                    multiple
-                    type="file"
-                    value={undefined}
-                    name="images"
-                    onChange={handleFileChange}
+                  <FilePond
+                    files={images}
+                    onupdatefiles={handleImageUpload}
+                    allowMultiple={true}
+                    maxFiles={8}
+                    name="files"
+                    labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
                   />
                 </Grid>
                 <Grid item>

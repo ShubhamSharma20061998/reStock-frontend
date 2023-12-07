@@ -15,6 +15,14 @@ export const shopsReducer = (state = initialValues, action) => {
     case "SET_SERVER_ERRORS": {
       return { ...state, serverErrors: action.payload };
     }
+    case "REMOVE_USER": {
+      return {
+        ...state,
+        shopsList: state.shopsList.filter(el => {
+          return el._id != action.payload;
+        }),
+      };
+    }
     default: {
       return { ...state };
     }

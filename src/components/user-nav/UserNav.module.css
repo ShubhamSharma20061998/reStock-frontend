@@ -1,0 +1,45 @@
+.navMainContainer {
+  margin-bottom: 2rem;
+  padding: 1rem 0;
+}
+.logo_desktop {
+  height: 4rem;
+  width: 3rem;
+  margin-right: 1rem;
+}
+
+@media screen and (max-width: 900px) {
+  .logo_desktop {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 900px) {
+  .logo_desktop {
+    display: flex;
+  }
+}
+
+.logo_mobile {
+  width: 2rem;
+  height: 3rem;
+  margin-right: 27%;
+}
+
+@media screen and (max-width: 900px) {
+  .logo_mobile {
+    display: flex;
+  }
+}
+
+@media screen and (min-width: 900px) {
+  .logo_mobile {
+    display: none;
+  }
+}
+
+.sideNavMenu {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}

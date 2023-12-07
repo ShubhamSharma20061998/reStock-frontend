@@ -6,17 +6,27 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { useSelector } from "react-redux";
-import { Button } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { Box, Button, IconButton, Tooltip } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
+import { startShopDelete } from "../../actions/shops-actions";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 
 export default function ShopsTable() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const rows = useSelector(state => {
     return state.shops.shopsList;
   });
-  const handleClick = id => {
+  const handleUpdate = id => {
     navigate(`/shop/${id}`);
+  };
+  const handleDelete = id => {
+    const userResponse = confirm("Are you sure?");
+    if (userResponse) {
+      dispatch(startShopDelete(id));
+    }
   };
   return (
     <TableContainer component={Paper}>
@@ -66,13 +76,26 @@ export default function ShopsTable() {
                   {gstNo}
                 </TableCell>
                 <TableCell component="th" scope="row">
-                  <Button
-                    onClick={() => {
-                      handleClick(_id);
-                    }}
-                  >
-                    Details
-                  </Button>
+                  <Box sx={{ display: "flex" }}>
+                    <Tooltip title="Edit Shop">
+                      <IconButton
+                        aria-label="edit"
+                        onClick={e => {
+                          handleUpdate(_id);
+                        }}
+                      >
+                        <EditOutlinedIcon color="primary" />
+                      </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Remove Shop">
+                      <IconButton
+                        aria-label="delete"
+                        onClick={e => handleDelete(_id)}
+                      >
+                        <DeleteForeverOutlinedIcon color="error" />
+                      </IconButton>
+                    </Tooltip>
+                  </Box>
                 </TableCell>
               </TableRow>
             )
