@@ -6,11 +6,12 @@ import {
   Typography,
   Grid,
   CardActions,
+  Paper,
+  CardActionArea,
 } from "@mui/material";
 import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { useTheme } from "@mui/material/styles";
 import ShoppingCartRoundedIcon from "@mui/icons-material/ShoppingCartRounded";
 import AddToCart from "../addToCartBtn/AddToCart";
 import Spinner from "../spinner/Spinner";
@@ -19,8 +20,9 @@ import {
   startAddItemsToCart,
   startCartItemsListing,
 } from "../../actions/cart-actions";
-import { ToastContainer, toast } from "react-toastify";
+import { Slide, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import styles from "./SingleProductView.module.css";
 
 const SingleProductView = () => {
   const location = useLocation();
@@ -33,19 +35,21 @@ const SingleProductView = () => {
   const data = useSelector(state => {
     return state.products.products?.find(el => el._id == product_id);
   });
+  console.log(data);
   const message = useSelector(state => {
     return state.cart.message;
   });
   const notify = message =>
-    toast(message, {
+    toast.success(message, {
       position: "top-right",
-      autoClose: 2000,
+      autoClose: 1000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
       draggable: true,
       progress: undefined,
-      theme: "light",
+      theme: "colored",
+      transition: Slide,
     });
   const handleAddToCart = useCallback(() => {
     dispatch(startAddItemsToCart(data._id));
@@ -55,10 +59,11 @@ const SingleProductView = () => {
   });
 
   return data ? (
-    <Container>
+    <>
       <ToastContainer
+        transition={Slide}
         position="top-right"
-        autoClose={2000}
+        autoClose={1000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick
@@ -66,43 +71,76 @@ const SingleProductView = () => {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        theme="light"
+        theme="colored"
       />
-      <Grid container>
-        <Card sx={{ display: "flex" }}>
-          <Grid item sm={12} md={6}>
-            <CardContent sx={{ flex: "1 0 auto" }}>
-              <Typography component="div" variant="h5">
-                {`${data.title[0].toUpperCase()}${data.title.slice(1)}`}
-              </Typography>
-              <Typography
-                variant="subtitle1"
-                color="text.secondary"
-                component="div"
-              >
-                {data.brandName}
-              </Typography>
-              <Typography variant="body1" component="div">
-                {data.description}
-              </Typography>
-            </CardContent>
-            <CardActions>
-              <AddToCart
-                handleAddToCart={handleAddToCart}
-                endIcon={<ShoppingCartRoundedIcon />}
-              />
-            </CardActions>
-          </Grid>
-          <Grid item sm={12} md={6}>
-            <CardMedia
-              component="img"
-              image={data.images[0].url}
-              alt="Live from space album cover"
-            />
+      <Container className={styles.container}>
+        <Card>
+          <Grid container>
+            <Grid item md={7}>
+              <CardActionArea>
+                <CardMedia
+                  className={styles.productImage}
+                  component="img"
+                  height="140"
+                  image={data.images[0].url}
+                  alt={data.title}
+                />
+              </CardActionArea>
+            </Grid>
+            <Grid item md={5} className={styles.textContent}>
+              <CardContent>
+                <Typography component="div" variant="h5">
+                  {`${data.title[0].toUpperCase()}${data.title.slice(1)}`}
+                </Typography>
+                <Typography variant="subtitle1" component="div">
+                  {data.brandName}
+                </Typography>
+                <Typography
+                  variant="subtitle1"
+                  color="text.secondary"
+                  component="div"
+                >
+                  {data.description}
+                </Typography>
+                <Typography
+                  variant="subtitle1"
+                  color="text.secondary"
+                  component="div"
+                >
+                  <span style={{ marginRight: "2rem" }}>
+                    Maximum Order - {data.maxOrderUnit}
+                  </span>
+                  <span>Minimum Order -{data.minOrderUnit}</span>
+                </Typography>
+                <Typography
+                  variant="subtitle1"
+                  color="text.secondary"
+                  component="div"
+                >
+                  Unit Type - {data.unitType}
+                </Typography>
+                <Typography
+                  variant="subtitle1"
+                  color="text.secondary"
+                  component="div"
+                >
+                  Unit Type - {data.unitType}
+                </Typography>
+                <Typography variant="subtitle1" component="div">
+                  ₹{data.price}
+                </Typography>
+              </CardContent>
+              <CardActions>
+                <AddToCart
+                  handleAddToCart={handleAddToCart}
+                  endIcon={<ShoppingCartRoundedIcon />}
+                />
+              </CardActions>
+            </Grid>
           </Grid>
         </Card>
-      </Grid>
-    </Container>
+      </Container>
+    </>
   ) : (
     <Spinner />
   );

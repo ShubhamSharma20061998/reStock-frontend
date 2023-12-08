@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useMemo } from "react";
+import React, { memo, useEffect, useMemo, useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -10,27 +10,71 @@ import { Button, Container, IconButton } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import {
   startCartItemsListing,
+  startClearCart,
   startDeleteItem,
   startQuantityDecrement,
   startQuantityIncreament,
 } from "../../actions/cart-actions";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import RemoveOutlinedIcon from "@mui/icons-material/RemoveOutlined";
-import Spinner from "../spinner/Spinner";
+import {
+  startDeletePayment,
+  startListingPayments,
+  startPaymentUpdate,
+  startPayments,
+} from "../../actions/payments-action";
+import { ToastContainer, toast } from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.css";
+import EmptyCart from "./EmptyCart";
+import _ from "lodash";
 
 const Cart = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(startCartItemsListing());
+    dispatch(startCartItemsListing()); // Get the URL search parameters
+    dispatch(startListingPayments());
+    const searchParams = new URLSearchParams(window.location.search);
+    // Access individual parameters
+    const success = searchParams.get("success");
+    const cancel = searchParams.get("cancel");
+    if (success) {
+      toast.success("Order has been placed.", {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+    } else if (cancel) {
+      toast.error("Something went wrong!", {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+    }
   }, []);
 
   const rows = useSelector(state => {
     return state.cart.selectedItems;
   });
+
+  const payment = useSelector(state => {
+    return state.payments.payment;
+  });
+
   const subTotal = useMemo(() => {
     return rows.reduce((acc, cv) => {
-      acc += cv.quantity * cv.productID.price;
+      acc += Number(cv.quantity) * Number(cv.productID.price);
       return acc;
     }, 0);
   }, [rows]);
@@ -50,11 +94,57 @@ const Cart = () => {
   const handleDelete = id => {
     dispatch(startDeleteItem(id));
   };
+  const requestObject = rows => {
+    const lineItems = rows.map(el => {
+      return {
+        price: el.productID.price,
+        title: el.productID.title,
+        quantity: el.quantity,
+        products: el.productID._id,
+      };
+    });
+    return lineItems;
+  };
+
+  const handleCheckout = async () => {
+    let userEmail = "";
+    rows.forEach(el => (userEmail = el.userID.email));
+    const lineItems = requestObject(rows);
+    dispatch(startPayments(lineItems, subTotal, userEmail));
+  };
+  useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search);
+    // Access individual parameters
+    const success = searchParams.get("success");
+    const cancel = searchParams.get("cancel");
+    const ids = rows.map(el => el._id);
+    if (rows.length > 0 && success) {
+      dispatch(startClearCart(ids));
+    }
+    if (!_.isEmpty(payment) && success) {
+      dispatch(startPaymentUpdate(payment[0]?.transactionID));
+    }
+    if (!_.isEmpty(payment) && cancel) {
+      dispatch(startDeletePayment(payment[0]?.transactionID));
+    }
+  }, [rows, payment]);
 
   return (
     <>
       {rows.length > 0 ? (
         <Container>
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+          />
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 700 }} aria-label="spanning table">
               <TableHead>
@@ -73,41 +163,47 @@ const Cart = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows?.map(el => (
-                  <TableRow key={el._id}>
-                    <TableCell>
-                      {el.productID.title} - {el.productID.description}
-                    </TableCell>
-                    <TableCell align="right">{el.productID.price}</TableCell>
-                    <TableCell align="right">
-                      <IconButton
-                        aria-label="increase"
-                        size="small"
-                        onClick={e => {
-                          handleIncrease(el._id);
-                        }}
-                      >
-                        <AddOutlinedIcon fontSize="small" />
-                      </IconButton>
-                      {el.quantity}
-                      <IconButton
-                        aria-label="decrease"
-                        size="small"
-                        onClick={e => {
-                          el.quantity <= 1
-                            ? handleDelete(el._id)
-                            : handleDecrease(el._id);
-                        }}
-                      >
-                        <RemoveOutlinedIcon fontSize="small" />
-                      </IconButton>
-                    </TableCell>
-                    <TableCell align="right">{el.productID.unitType}</TableCell>
-                    <TableCell align="right">
-                      {sum(el.quantity, el.productID.price)}
-                    </TableCell>
-                  </TableRow>
-                ))}
+                {rows?.map(el => {
+                  return (
+                    <TableRow key={el._id}>
+                      <TableCell>
+                        {el.productID.title} - {el.productID.description}
+                      </TableCell>
+                      <TableCell align="right">
+                        {Number(el.productID.price)}
+                      </TableCell>
+                      <TableCell align="right">
+                        <IconButton
+                          aria-label="increase"
+                          size="small"
+                          onClick={e => {
+                            handleIncrease(el._id);
+                          }}
+                        >
+                          <AddOutlinedIcon fontSize="small" />
+                        </IconButton>
+                        {el.quantity}
+                        <IconButton
+                          aria-label="decrease"
+                          size="small"
+                          onClick={e => {
+                            el.quantity <= 1
+                              ? handleDelete(el._id)
+                              : handleDecrease(el._id);
+                          }}
+                        >
+                          <RemoveOutlinedIcon fontSize="small" />
+                        </IconButton>
+                      </TableCell>
+                      <TableCell align="right">
+                        {el.productID.unitType}
+                      </TableCell>
+                      <TableCell align="right">
+                        {sum(Number(el.quantity), Number(el.productID.price))}
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
                 <TableRow>
                   <TableCell rowSpan={3} />
                   <TableCell colSpan={2}>Total</TableCell>
@@ -119,13 +215,14 @@ const Cart = () => {
           <Button
             sx={{ marginTop: "2rem", float: "right" }}
             variant="contained"
+            onClick={handleCheckout}
           >
             Checkout
           </Button>
         </Container>
       ) : (
         <>
-          <h1>Cart is empty.</h1>
+          <EmptyCart />
         </>
       )}
     </>

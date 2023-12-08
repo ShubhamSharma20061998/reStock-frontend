@@ -1,0 +1,14 @@
+.productImage {
+  height: 100%;
+  width: 100%;
+}
+.container {
+  width: 100%;
+  min-height: 82vh;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}
+.textContent {
+  padding: 1rem;
+}

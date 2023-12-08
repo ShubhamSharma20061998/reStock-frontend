@@ -3,6 +3,11 @@
   padding: 0;
   box-sizing: border-box;
 }
+#root {
+  background-color: #e8e8e8;
+  min-height: 100vh;
+  width: 100%;
+}
 .cursorPointer {
   cursor: pointer;
 }

@@ -19,21 +19,30 @@ import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 
 const UserLandingPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
+
   const [pageData, setPageData] = useState([]);
-  const [filter, setFilter] = useState("");
+
+  const sortValues = ["a-z", "z-a", "lowest-highest", "highest-lowest"];
+
+  const [sort, setSort] = useState("");
+
   const numberOfElements = 16;
+
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(startGetProducts());
-    dispatch(startCartItemsListing());
   }, []);
+
   const data = useSelector(state => {
     return state.products.products;
   });
+
   useEffect(() => {
     const initialSate = data.slice(0, numberOfElements);
     setPageData(initialSate);
   }, [data]);
+
   const selectedData = (event, value) => {
     const result = data.slice(
       (value - 1) * numberOfElements,
@@ -41,6 +50,7 @@ const UserLandingPage = () => {
     );
     setPageData(result);
   };
+
   const handleSearch = e => {
     e.preventDefault();
     const term = e.target.value;
@@ -50,9 +60,13 @@ const UserLandingPage = () => {
     });
     setPageData(result);
   };
-  const handleFilter = e => {
-    const filter = e.target.value;
+
+  const handleSort = e => {
+    const sortOption = e.target.value;
+    setSort(sortOption);
+    dispatch(startGetProducts(sortOption));
   };
+
   return (
     <>
       <UserNav />
@@ -68,15 +82,14 @@ const UserLandingPage = () => {
             <TextField
               id="outlined-select-currency"
               select
-              label="Filter"
-              defaultValue="Select"
+              label="sort"
               fullWidth
-              value={filter}
-              onChange={e => handleFilter()}
+              value={sort}
+              onChange={handleSort}
             >
-              {data.map(el => (
-                <MenuItem key={el._id} value={el._id}>
-                  {el.title}
+              {sortValues.map((el, index) => (
+                <MenuItem key={index} value={el}>
+                  {el}
                 </MenuItem>
               ))}
             </TextField>

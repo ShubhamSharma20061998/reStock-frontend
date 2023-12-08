@@ -44,7 +44,7 @@ const CustomRoutes = () => {
       element: (
         <>
           <UserNav />
-          <SingleProductView />,
+          <SingleProductView />
         </>
       ),
     },
@@ -53,7 +53,7 @@ const CustomRoutes = () => {
       element: (
         <>
           <UserNav />
-          <Cart />,
+          <Cart />
         </>
       ),
     },

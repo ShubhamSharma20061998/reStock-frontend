@@ -29,7 +29,13 @@ export const cartReducer = (state = initialValues, action) => {
       if (item >= 0) {
         return {
           ...state,
-          selectedItems: (state.selectedItems[item].quantity += 1),
+          // selectedItems: (state.selectedItems[item].quantity += 1),
+          selectedItems: state.selectedItems.map(el => {
+            return {
+              ...el,
+              quantity: Number(el.quantity) + Number(action.payload.quantity),
+            };
+          }),
         };
       } else {
         return {
@@ -63,7 +69,7 @@ export const cartReducer = (state = initialValues, action) => {
         ...state,
         selectedItems: state.selectedItems.map(el => {
           if (el._id == action.payload._id) {
-            return { ...el, quantity: el.quantity + 1 };
+            return { ...el, quantity: Number(el.quantity) + 1 };
           } else {
             return { ...el };
           }
@@ -75,7 +81,7 @@ export const cartReducer = (state = initialValues, action) => {
         ...state,
         selectedItems: state.selectedItems.map(el => {
           if (el._id == action.payload._id) {
-            return { ...el, quantity: el.quantity - 1 };
+            return { ...el, quantity: Number(el.quantity) - 1 };
             // return { el: action.payload };
           } else {
             return { ...el };
@@ -89,6 +95,13 @@ export const cartReducer = (state = initialValues, action) => {
         selectedItems: state.selectedItems.filter(el => {
           return el._id != action.payload;
         }),
+      };
+    }
+    case "EMPTY_CART": {
+      return {
+        selectedItems: [],
+        serverErrors: [],
+        message: {},
       };
     }
     default: {

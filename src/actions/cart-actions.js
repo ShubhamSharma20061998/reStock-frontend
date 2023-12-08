@@ -14,6 +14,21 @@ export const startAddItemsToCart = id => {
     }
   };
 };
+export const startClearCart = ids => {
+  return async dispatch => {
+    try {
+      const response = await Axios.post("/api/empty-cart", { ids });
+      if (response.status == 200) {
+        dispatch(clearCart());
+      }
+    } catch (err) {
+      dispatch(setServerError(err.response.data.errors));
+    }
+  };
+};
+const clearCart = () => {
+  return { type: "EMPTY_CART" };
+};
 const addCartItems = data => {
   return { type: "CREATE_CART_ITEM", payload: data };
 };

@@ -1,9 +1,11 @@
 import axios from "axios";
 import Axios from "../config/axios";
-export const startGetProducts = () => {
+export const startGetProducts = condition => {
   return async dispatch => {
     try {
-      const response = await Axios.get("/api/getProducts");
+      const response = await Axios.get(
+        `/api/getProducts?condition=${condition}`
+      );
       dispatch(getAllProducts(response.data));
     } catch (err) {
       dispatch(setServerError(err.response.data.errors));
