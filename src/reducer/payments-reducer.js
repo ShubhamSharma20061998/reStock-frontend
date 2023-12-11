@@ -1,5 +1,6 @@
 const initialState = {
   payment: {},
+  allPayments: [],
   serverErrors: [],
 };
 export const paymentsReducer = (state = initialState, action) => {
@@ -14,6 +15,12 @@ export const paymentsReducer = (state = initialState, action) => {
       return {
         ...state,
         payment: action.payload,
+      };
+    }
+    case "ALL_SUCCESS_PAYMENTS": {
+      return {
+        ...state,
+        allPayments: [...state.allPayments, action.payload],
       };
     }
     default: {

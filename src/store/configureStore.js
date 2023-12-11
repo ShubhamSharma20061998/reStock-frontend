@@ -5,6 +5,7 @@ import productsReducer from "../reducer/productsReducer";
 import { shopsReducer } from "../reducer/shops-reducer";
 import { cartReducer } from "../reducer/carts-reducer";
 import { paymentsReducer } from "../reducer/payments-reducer";
+import { orderReducer } from "../reducer/orders-reducer";
 
 const rootReducer = {
   users: usersReducer,
@@ -12,6 +13,7 @@ const rootReducer = {
   shops: shopsReducer,
   cart: cartReducer,
   payments: paymentsReducer,
+  orders: orderReducer,
 };
 
 export default function configureStore() {

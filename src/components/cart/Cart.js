@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useMemo, useState } from "react";
+import React, { memo, useEffect, useMemo } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -28,6 +28,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import EmptyCart from "./EmptyCart";
 import _ from "lodash";
+import { startOrderCreation } from "../../actions/orders-actions";
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -67,6 +68,7 @@ const Cart = () => {
   const rows = useSelector(state => {
     return state.cart.selectedItems;
   });
+  console.log(rows);
 
   const payment = useSelector(state => {
     return state.payments.payment;
@@ -94,6 +96,16 @@ const Cart = () => {
   const handleDelete = id => {
     dispatch(startDeleteItem(id));
   };
+
+  const orderCreation = rows => {
+    const orderData = {
+      orderDate: `${new Date(rows[0].userID.createdAt)}`,
+      orderOwner: rows[0].userID._id,
+      lineItems: rows.map(el => el.productID),
+    };
+    return orderData;
+  };
+
   const requestObject = rows => {
     const lineItems = rows.map(el => {
       return {
@@ -118,14 +130,17 @@ const Cart = () => {
     const success = searchParams.get("success");
     const cancel = searchParams.get("cancel");
     const ids = rows.map(el => el._id);
-    if (rows.length > 0 && success) {
-      dispatch(startClearCart(ids));
-    }
     if (!_.isEmpty(payment) && success) {
       dispatch(startPaymentUpdate(payment[0]?.transactionID));
     }
     if (!_.isEmpty(payment) && cancel) {
       dispatch(startDeletePayment(payment[0]?.transactionID));
+    }
+    if (rows.length > 0 && success) {
+      dispatch(startClearCart(ids));
+    }
+    if (rows.length > 0 && payment.length > 0 && success) {
+      dispatch(startOrderCreation(orderCreation(rows)));
     }
   }, [rows, payment]);
 

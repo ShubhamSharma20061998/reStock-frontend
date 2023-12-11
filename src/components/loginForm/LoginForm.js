@@ -1,4 +1,4 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import { Button, Grid, TextField, Stack, Container } from "@mui/material";
 import styles from "./Login.module.css";
 import { useNavigate } from "react-router-dom";
@@ -11,9 +11,10 @@ const LoginForm = () => {
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const data = useSelector(state => state.users.serverErrors);
-  const setToken = (token, role) => {
+  const setToken = (token, role, userID) => {
     localStorage.setItem("token", token);
     localStorage.setItem("role", role);
+    localStorage.setItem("userID", userID);
   };
   const redirect = () => {
     navigate("/landingPage");

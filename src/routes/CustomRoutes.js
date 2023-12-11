@@ -11,6 +11,7 @@ import SingleProductView from "../components/products/SingleProductView";
 import ErrorPage from "../pages/errors/ErrorPage";
 import UserNav from "../components/user-nav/UserNav";
 import UserLandingPage from "../pages/UserLandingPage";
+import UserProfile from "../components/user-nav/userProfile/UserProfile";
 
 const CustomRoutes = () => {
   let myRoutes = useRoutes([
@@ -54,6 +55,15 @@ const CustomRoutes = () => {
         <>
           <UserNav />
           <Cart />
+        </>
+      ),
+    },
+    {
+      path: "/user-profile/:id",
+      element: (
+        <>
+          <UserNav />
+          <UserProfile />
         </>
       ),
     },

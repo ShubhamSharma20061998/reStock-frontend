@@ -1,0 +1,12 @@
+.formControl {
+  width: 100%;
+}
+.formCard {
+  padding: 1rem 0;
+  width: 50%;
+}
+.mainContainer {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}

@@ -25,7 +25,11 @@ export const startUserLogin = (formData, resetForm, redirect, setToken) => {
         dispatch(loggedInUser(response.data));
         resetForm();
         redirect();
-        setToken(response.data.token, response.data.user.role);
+        setToken(
+          response.data.token,
+          response.data.user.role,
+          response.data.user._id
+        );
       }
     } catch (err) {
       dispatch(setServerErrors(err.response.data.errors));

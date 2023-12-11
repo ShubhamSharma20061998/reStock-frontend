@@ -26,15 +26,18 @@ import { startCartItemsListing } from "../../actions/cart-actions";
 
 const UserNav = props => {
   const dispatch = useDispatch();
+  const [userID, setUserID] = useState("");
   const pages = [
-    { title: "Profile", path: "" },
-    { title: "Account", path: "" },
     { title: "Home", path: "/landingPage" },
+    { title: "Profile", path: `/user-profile/${userID}` },
+    { title: "Orders", path: "" },
   ];
   const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(startCartItemsListing());
+    const res = localStorage.getItem("userID");
+    setUserID(res);
   }, []);
 
   const settings = [{ title: "Logout", path: "/" }];
@@ -51,6 +54,8 @@ const UserNav = props => {
 
   const handleCloseNavMenu = (title, path) => {
     if (title == "Home") {
+      navigate(path);
+    } else if (title == "Profile") {
       navigate(path);
     }
     setAnchorElNav(null);
