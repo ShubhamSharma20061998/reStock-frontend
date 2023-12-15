@@ -13,7 +13,6 @@ import {
 import Spinner from "../components/spinner/Spinner";
 import UserNav from "../components/user-nav/UserNav";
 import { startGetProducts } from "../actions/products-action";
-import { startCartItemsListing } from "../actions/cart-actions";
 import styles from "./UserLandingPage.module.css";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 
@@ -21,12 +20,13 @@ const UserLandingPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const [pageData, setPageData] = useState([]);
+  const [page, setPage] = useState(1);
 
   const sortValues = ["a-z", "z-a", "lowest-highest", "highest-lowest"];
 
   const [sort, setSort] = useState("");
 
-  const numberOfElements = 16;
+  const numberOfElements = 15;
 
   const dispatch = useDispatch();
 
@@ -46,9 +46,10 @@ const UserLandingPage = () => {
   const selectedData = (event, value) => {
     const result = data.slice(
       (value - 1) * numberOfElements,
-      value * numberOfElements - 1
+      value * numberOfElements
     );
     setPageData(result);
+    setPage(value);
   };
 
   const handleSearch = e => {
@@ -128,8 +129,8 @@ const UserLandingPage = () => {
           <Container className={styles.paginationContainer}>
             <Pagination
               color="primary"
-              count={Math.ceil(pageData.length / numberOfElements)}
-              page={1}
+              count={Math.ceil(data.length / numberOfElements)}
+              page={page}
               defaultValue={1}
               onChange={selectedData}
             />

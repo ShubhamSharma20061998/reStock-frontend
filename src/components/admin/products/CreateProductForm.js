@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import * as Yup from "yup";
 import {
   Button,
   Card,
@@ -10,11 +9,12 @@ import {
   Grid,
   InputAdornment,
   TextField,
+  Typography,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import CurrencyRupee from "@mui/icons-material/CurrencyRupee";
-import { startCreateProduct } from "../../actions/products-action";
+import { startCreateProduct } from "../../../actions/products-action";
 import { FilePond, registerPlugin } from "react-filepond";
 // Import FilePond styles
 import "filepond/dist/filepond.min.css";
@@ -22,6 +22,8 @@ import "filepond/dist/filepond.min.css";
 // Note: These need to be installed separately
 import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
+import products from "../../../assets/products.svg";
+import styles from "./CreateProductForm.module.css";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 // Register the plugins
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
@@ -197,105 +199,110 @@ const CreateProductForm = () => {
     setImages(images.map(el => el.file));
   };
   return (
-    <Container>
-      <Grid container>
-        <Card>
-          <Container>
-            <FormControl>
-              <form onSubmit={handleSubmit} encType="multipart/form-data">
-                {textfields?.map(
-                  (
-                    {
-                      variant,
-                      label,
-                      name,
-                      value,
-                      serverError,
-                      type,
-                      helperText,
-                      inputProps,
-                      rupeeIcon,
-                      stateHandler,
-                    },
-                    index
-                  ) => {
-                    return (
-                      <Grid item key={index}>
-                        <TextField
-                          fullWidth
-                          InputProps={
-                            rupeeIcon
-                              ? {
-                                  startAdornment: (
-                                    <InputAdornment position="start">
-                                      <CurrencyRupee />
-                                    </InputAdornment>
-                                  ),
-                                }
-                              : null
-                          }
-                          type={Boolean(type) ? type : ""}
-                          inputProps={
-                            Boolean(inputProps)
-                              ? {
-                                  multiple: true,
-                                }
-                              : {}
-                          }
-                          variant={variant}
-                          label={label}
-                          name={name}
-                          value={value}
-                          onChange={e => stateHandler(e.target.value)}
-                          error={Boolean(serverError)}
-                          helperText={
-                            Boolean(serverError)
-                              ? formikError || serverError.msg
-                              : helperText
-                          }
-                        />
-                      </Grid>
-                    );
-                  }
-                )}
-                <Grid item>
-                  <FilePond
-                    files={images}
-                    onupdatefiles={handleImageUpload}
-                    allowMultiple={true}
-                    maxFiles={8}
-                    name="files"
-                    labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
-                  />
-                </Grid>
-                <Grid item>
-                  <FormControlLabel
-                    control={<Checkbox checked={isNewProducts} />}
-                    label="New Product"
-                    name="isNewProducts"
-                    value={isNewProducts}
-                    checked={isNewProducts}
-                    onChange={e => setIsNewProducts(e.target.value)}
-                  />
-                </Grid>
-                <Grid item>
-                  <input
-                    type="date"
-                    name="productReleaseDate"
-                    value={productReleaseDate}
-                    onChange={e => setProductReleaseDate(e.target.value)}
-                  />
-                </Grid>
-                <Grid item>
-                  <Button variant="contained" fullWidth type="submit">
-                    Submit
-                  </Button>
-                </Grid>
-              </form>
-            </FormControl>
-          </Container>
-        </Card>
-      </Grid>
+    <Container sx={{ position: "relative" }}>
+      <img src={products} alt="products" className={styles.productImage} />
+      <Card sx={{ padding: "2rem 0" }} elevation={2}>
+        <form onSubmit={handleSubmit} encType="multipart/form-data">
+          <Typography variant="h5" textAlign={"center"} marginBottom={"2rem"}>
+            Products Registeration Form
+          </Typography>
+          <Grid
+            container
+            spacing={2}
+            alignItems={"center"}
+            justifyContent={"center"}
+          >
+            {textfields?.map(
+              (
+                {
+                  variant,
+                  label,
+                  name,
+                  value,
+                  serverError,
+                  type,
+                  helperText,
+                  inputProps,
+                  rupeeIcon,
+                  stateHandler,
+                },
+                index
+              ) => {
+                return (
+                  <Grid item key={index} sm={5} xs={10}>
+                    <TextField
+                      fullWidth
+                      InputProps={
+                        rupeeIcon
+                          ? {
+                              startAdornment: (
+                                <InputAdornment position="start">
+                                  <CurrencyRupee />
+                                </InputAdornment>
+                              ),
+                            }
+                          : null
+                      }
+                      type={Boolean(type) ? type : ""}
+                      inputProps={
+                        Boolean(inputProps)
+                          ? {
+                              multiple: true,
+                            }
+                          : {}
+                      }
+                      variant={variant}
+                      label={label}
+                      name={name}
+                      value={value}
+                      onChange={e => stateHandler(e.target.value)}
+                      error={Boolean(serverError)}
+                      helperText={
+                        Boolean(serverError)
+                          ? formikError || serverError.msg
+                          : helperText
+                      }
+                    />
+                  </Grid>
+                );
+              }
+            )}
+            <Grid item sm={10} xs={12}>
+              <FilePond
+                files={images}
+                onupdatefiles={handleImageUpload}
+                allowMultiple={true}
+                maxFiles={8}
+                name="files"
+                labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
+              />
+            </Grid>
+            <Grid item sm={5} xs={10}>
+              <FormControlLabel
+                control={<Checkbox checked={isNewProducts} />}
+                label="New Product"
+                name="isNewProducts"
+                value={isNewProducts}
+                checked={isNewProducts}
+                onChange={e => setIsNewProducts(e.target.value)}
+              />
+            </Grid>
+            <Grid item sm={5} xs={10}>
+              <input
+                type="date"
+                name="productReleaseDate"
+                value={productReleaseDate}
+                onChange={e => setProductReleaseDate(e.target.value)}
+              />
+            </Grid>
+            <Grid item sm={4} xs={8}>
+              <Button variant="contained" fullWidth type="submit">
+                Submit
+              </Button>
+            </Grid>
+          </Grid>
+        </form>
+      </Card>
     </Container>
   );
 };

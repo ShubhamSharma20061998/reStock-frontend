@@ -13,16 +13,16 @@ import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import ShoppingCartRoundedIcon from "@mui/icons-material/ShoppingCartRounded";
-import AddToCart from "../addToCartBtn/AddToCart";
-import Spinner from "../spinner/Spinner";
-import { startGetProducts } from "../../actions/products-action";
+import { startGetProducts } from "../../../actions/products-action";
 import {
   startAddItemsToCart,
   startCartItemsListing,
-} from "../../actions/cart-actions";
+} from "../../../actions/cart-actions";
 import { Slide, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import styles from "./SingleProductView.module.css";
+import AddToCart from "../../addToCartBtn/AddToCart";
+import Spinner from "../../spinner/Spinner";
 
 const SingleProductView = () => {
   const location = useLocation();

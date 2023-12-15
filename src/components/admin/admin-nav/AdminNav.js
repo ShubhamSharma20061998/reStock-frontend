@@ -5,7 +5,6 @@ import {
   Button,
   Container,
   IconButton,
-  TextField,
   Toolbar,
   Typography,
 } from "@mui/material";
@@ -17,21 +16,23 @@ import Menu from "@mui/material/Menu";
 import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import styles from "./UserNav.module.css";
-import logo from "../../assets/logo-no-background.png";
-import user from "../../assets/undraw_profile_data_re_v81r.svg";
-import { handleLogOut } from "../../utils/projectUtils";
-import { startCartItemsListing } from "../../actions/cart-actions";
+import styles from "./AdminNav.module.css";
+import logo from "../../../assets/restock-high-resolution-logo-transparent.png";
+import user from "../../../assets/undraw_profile_data_re_v81r.svg";
+import { handleLogOut } from "../../../utils/projectUtils";
+import { startCartItemsListing } from "../../../actions/cart-actions";
+import NotificationsActiveOutlinedIcon from "@mui/icons-material/NotificationsActiveOutlined";
+import { startReceivedOrders } from "../../../actions/orders-actions";
 
-const UserNav = props => {
+const AdminNav = props => {
   const dispatch = useDispatch();
   const [userID, setUserID] = useState("");
 
   const pages = [
     { title: "Home", path: "/landingPage" },
-    { title: "Orders", path: `/orders/${userID}` },
-    { title: "Profile", path: `/user-profile/${userID}` },
+    { title: "Profile", path: `/admin-profile/${userID}` },
+    { title: "Create Shop", path: `/registerShop` },
+    { title: "Create Product", path: `/create_product` },
   ];
   const navigate = useNavigate();
 
@@ -39,7 +40,10 @@ const UserNav = props => {
     dispatch(startCartItemsListing());
     const res = localStorage.getItem("userID");
     setUserID(res);
+    dispatch(startReceivedOrders());
   }, []);
+
+  const receivedOrders = useSelector(state => state.orders.ownerPendingOrders);
 
   const settings = [{ title: "Logout", path: "/" }];
 
@@ -58,7 +62,9 @@ const UserNav = props => {
       navigate(path);
     } else if (title == "Profile") {
       navigate(path);
-    } else if (title == "Orders") {
+    } else if (title == "Create Shop") {
+      navigate(path);
+    } else if (title == "Create Product") {
       navigate(path);
     }
     setAnchorElNav(null);
@@ -71,9 +77,6 @@ const UserNav = props => {
     }
     setAnchorElUser(null);
   };
-  const cartData = useSelector(state => {
-    return state.cart.selectedItems;
-  });
   const handleLogoClick = () => {
     navigate("/landingPage");
   };
@@ -152,11 +155,13 @@ const UserNav = props => {
 
           <Box sx={{ flexGrow: 0 }} className={styles.sideNavMenu}>
             <Badge
-              badgeContent={cartData.length}
+              badgeContent={receivedOrders.length}
               color="secondary"
               className={`${styles.cartBadge} cursorPointer`}
             >
-              <ShoppingCartOutlinedIcon onClick={() => navigate(`/cart`)} />
+              <NotificationsActiveOutlinedIcon
+                onClick={() => navigate("/ordersNotification")}
+              />
             </Badge>
             <Tooltip title="Logout">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -197,4 +202,4 @@ const UserNav = props => {
   );
 };
 
-export default UserNav;
+export default AdminNav;

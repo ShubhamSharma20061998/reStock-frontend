@@ -1,4 +1,4 @@
-import { Button, Container, Grid, TextField } from "@mui/material";
+import { Button, Container, Grid, TextField, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -6,6 +6,9 @@ import Card from "@mui/material/Card";
 
 const SingleShop = () => {
   const { id } = useParams();
+
+  const [isEdit, setIsEdit] = useState(false);
+
   const data = useSelector(state => {
     return state.shops.shopsList?.find(el => {
       return el._id == id;
@@ -43,6 +46,8 @@ const SingleShop = () => {
       setcontact(e.target.value);
     } else if (e.target.name == "alternateContact") {
       setalternateContact(e.target.value);
+    } else if (e.target.name == "gstNo") {
+      setgstNo(e.target.value);
     }
   };
 
@@ -125,38 +130,57 @@ const SingleShop = () => {
       alternateContact,
     };
   };
+
+  const toggle = e => {
+    e.preventDefault();
+    setIsEdit(true);
+  };
+
   return (
     <Container>
-      <Grid container>
-        <Card sx={{ minWidth: 275 }}>
-          <Container>
-            <form onSubmit={handleSubmit}>
-              {textfields?.map(
-                ({ variant, label, name, value, serverError }, index) => {
-                  return (
-                    <Grid item key={index}>
-                      <TextField
-                        variant={variant}
-                        label={label}
-                        name={name}
-                        value={value}
-                        onChange={handleChange}
-                        // error={Boolean(serverError)}
-                        // helperText={Boolean(serverError) ? serverError.msg : ""}
-                      />
-                    </Grid>
-                  );
-                }
-              )}
-              <Grid item>
-                <Button variant="contained" fullWidth type="submit">
-                  Submit
-                </Button>
-              </Grid>
-            </form>
-          </Container>
-        </Card>
-      </Grid>
+      <Card sx={{ minWidth: 275, padding: "2rem 0" }} elevation={2}>
+        <Typography variant="h5" textAlign={"center"} marginBottom={"2rem"}>
+          Update Shop
+        </Typography>
+        <form onSubmit={isEdit ? handleSubmit : toggle}>
+          <Grid
+            container
+            alignItems={"center"}
+            justifyContent={"center"}
+            spacing={2}
+          >
+            {textfields?.map(
+              ({ variant, label, name, value, serverError }, index) => {
+                return (
+                  <Grid item key={index} md={5}>
+                    <TextField
+                      disabled={!isEdit}
+                      fullWidth
+                      variant={variant}
+                      label={label}
+                      name={name}
+                      value={value}
+                      onChange={handleChange}
+                      // error={Boolean(serverError)}
+                      // helperText={Boolean(serverError) ? serverError.msg : ""}
+                    />
+                  </Grid>
+                );
+              }
+            )}
+            <Grid item md={12} textAlign={"center"}>
+              <Button
+                variant="contained"
+                fullWidth
+                type="submit"
+                sx={{ width: "20rem" }}
+              >
+                {isEdit ? "Submit" : "Update"}
+              </Button>
+            </Grid>
+          </Grid>
+        </form>
+      </Card>
     </Container>
   );
 };

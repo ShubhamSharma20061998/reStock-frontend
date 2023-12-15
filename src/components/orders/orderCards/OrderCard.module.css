@@ -1,0 +1,10 @@
+.productImage {
+  width: 5rem;
+  height: auto;
+}
+.orderStatus {
+  padding: 1rem 1rem;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+}

@@ -12,6 +12,7 @@ const LoginForm = () => {
   const dispatch = useDispatch();
   const data = useSelector(state => state.users.serverErrors);
   const setToken = (token, role, userID) => {
+    localStorage.clear();
     localStorage.setItem("token", token);
     localStorage.setItem("role", role);
     localStorage.setItem("userID", userID);

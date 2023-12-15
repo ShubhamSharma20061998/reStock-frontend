@@ -1,0 +1,12 @@
+.boardingImage {
+  width: 10rem;
+  position: absolute;
+  bottom: 0;
+  left: -52px;
+}
+
+@media screen and (max-width: 786px) {
+  .boardingImage {
+    display: none;
+  }
+}

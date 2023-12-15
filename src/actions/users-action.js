@@ -58,3 +58,22 @@ export const startFetchUserList = () => {
 const getAllUsers = data => {
   return { type: "GET_USERS_LIST", payload: data };
 };
+
+export const startUpdateUser = (id, formData) => {
+  return async dispatch => {
+    try {
+      const response = await Axios.put(`/api/update_users/${id}`, formData);
+      if (response.status == 200) {
+        console.log(response.data);
+        // dispatch(updateUser(response.data));
+      }
+    } catch (err) {
+      console.log(err);
+      dispatch(setServerErrors(err));
+    }
+  };
+};
+
+const updateUser = data => {
+  return { type: "UPDATE_USER", payload: data };
+};

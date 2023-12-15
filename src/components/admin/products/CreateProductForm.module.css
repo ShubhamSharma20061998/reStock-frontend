@@ -1,0 +1,12 @@
+.productImage {
+  width: 15rem;
+  position: absolute;
+  bottom: 0;
+  right: -4rem;
+}
+
+@media screen and (max-width: 786px) {
+  .productImage {
+    display: none;
+  }
+}

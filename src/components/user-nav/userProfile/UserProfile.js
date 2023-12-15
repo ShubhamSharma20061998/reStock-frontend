@@ -4,13 +4,15 @@ import {
   Container,
   FormControl,
   Grid,
-  Paper,
   TextField,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { startFetchUserList } from "../../../actions/users-action";
+import {
+  startFetchUserList,
+  startUpdateUser,
+} from "../../../actions/users-action";
 import Spinner from "../../spinner/Spinner";
 import * as Yup from "yup";
 import styles from "./UserProfile.module.css";
@@ -22,8 +24,6 @@ const UserProfile = () => {
   const [email, setEmail] = useState("");
   const [isEdit, setIsEdit] = useState(false);
   const [formErrors, setFormErrors] = useState([]);
-
-  const errors = {};
 
   useEffect(() => {
     dispatch(startFetchUserList());
@@ -54,8 +54,11 @@ const UserProfile = () => {
       await validationSchema.validate(formData, { abortEarly: false });
       // If validation is successful, clear formErrors
       setFormErrors([]);
-      console.log("Form is valid");
       // Perform other actions like dispatching an action or making an API call
+      if (formErrors) {
+        dispatch(startUpdateUser(userInfo._id, formData));
+      }
+      setIsEdit(false);
     } catch (validationErrors) {
       // If validation fails, set formErrors to the array of error messages
       const errorMessages = validationErrors.errors;
@@ -65,8 +68,8 @@ const UserProfile = () => {
   };
 
   const doNothing = e => {
-    setIsEdit(true);
     e.preventDefault();
+    setIsEdit(true);
   };
 
   return data ? (

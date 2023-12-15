@@ -101,10 +101,20 @@ const Cart = () => {
     const orderData = {
       orderDate: `${new Date(rows[0].userID.createdAt)}`,
       orderOwner: rows[0].userID._id,
-      lineItems: rows.map(el => el.productID),
+      lineItems: rows.map(el => {
+        return {
+          item: el.productID,
+          quantity: el.quantity,
+          amount: Number(el.quantity) * Number(el.productID.price),
+        };
+      }),
     };
     return orderData;
   };
+  console.log("rows", rows);
+  if (rows.length > 0) {
+    console.log(orderCreation(rows));
+  }
 
   const requestObject = rows => {
     const lineItems = rows.map(el => {
@@ -142,7 +152,7 @@ const Cart = () => {
     if (rows.length > 0 && payment.length > 0 && success) {
       dispatch(startOrderCreation(orderCreation(rows)));
     }
-  }, [rows, payment]);
+  }, [rows]);
 
   return (
     <>

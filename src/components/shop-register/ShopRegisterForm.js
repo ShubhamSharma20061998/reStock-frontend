@@ -1,11 +1,22 @@
 import React, { useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Button, FormControl, Grid, MenuItem, TextField } from "@mui/material";
+import {
+  Button,
+  Container,
+  FormControl,
+  Grid,
+  MenuItem,
+  Paper,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { startFetchUserList } from "../../actions/users-action";
 import { startShopRegistration } from "../../actions/shops-actions";
+import boarding from "../../assets/onboarding.svg";
+import styles from "./ShopRegisterForm.module.css";
 
 const ShopRegisterForm = () => {
   const dispatch = useDispatch();
@@ -37,7 +48,7 @@ const ShopRegisterForm = () => {
         fullAddress: Yup.string().required("Full address is required"),
         pincode: Yup.string().required("Pincode is required"),
         landmark: Yup.string(),
-        shopContact: Yup.string(),
+        shopContact: Yup.string().required("Shop contact is required"),
       })
     ),
     gstNo: Yup.string().required("GstNo is required"),
@@ -179,67 +190,74 @@ const ShopRegisterForm = () => {
     },
   ];
   return (
-    <Grid container>
-      <FormControl>
+    <Container>
+      <Paper elevation={3} sx={{ padding: "2rem 2rem", position: "relative" }}>
+        <img src={boarding} alt="boarding" className={styles.boardingImage} />
+        <Typography variant="h5" textAlign={"center"} marginBottom={"2rem"}>
+          Shop Registeration Form
+        </Typography>
         <form onSubmit={formik.handleSubmit}>
-          {textfields?.map(
-            (
-              { variant, label, name, value, serverError, formikError },
-              index
-            ) => {
-              return (
-                <Grid item key={index}>
-                  <TextField
-                    variant={variant}
-                    label={label}
-                    name={name}
-                    value={value}
-                    onChange={formik.handleChange}
-                    error={Boolean(serverError) || Boolean(formikError)}
-                    helperText={
-                      Boolean(serverError) || Boolean(formikError)
-                        ? formikError || serverError.msg
-                        : ""
-                    }
-                  />
-                </Grid>
-              );
-            }
-          )}
-          <Grid item>
-            <TextField
-              fullWidth
-              id="outlined-select-currency"
-              select
-              label="Username"
-              defaultValue="Select"
-              value={formik.values.owner}
-              name="owner"
-              onChange={formik.handleChange}
-              error={Boolean(formik.errors.owner)}
-              helperText={
-                Boolean(formik.errors.owner)
-                  ? formik.errors.owner
-                  : "Please select username"
-              }
-            >
-              {data?.map(el => {
+          <Grid container spacing={2} justifyContent={"center"} gap={"0 1rem"}>
+            {textfields?.map(
+              (
+                { variant, label, name, value, serverError, formikError },
+                index
+              ) => {
                 return (
-                  <MenuItem key={el._id} value={el._id}>
-                    {el.username}
-                  </MenuItem>
+                  <Grid item key={index} sm={5} xs={12}>
+                    <TextField
+                      fullWidth
+                      variant={variant}
+                      label={label}
+                      name={name}
+                      value={value}
+                      onChange={formik.handleChange}
+                      error={Boolean(serverError) || Boolean(formikError)}
+                      helperText={
+                        Boolean(serverError) || Boolean(formikError)
+                          ? formikError || serverError.msg
+                          : ""
+                      }
+                    />
+                  </Grid>
                 );
-              })}
-            </TextField>
-          </Grid>
-          <Grid item>
-            <Button variant="contained" fullWidth type="submit">
-              Submit
-            </Button>
+              }
+            )}
+            <Grid item sm={5} xs={12}>
+              <TextField
+                fullWidth
+                id="outlined-select-currency"
+                select
+                label="Username"
+                defaultValue="Select"
+                value={formik.values.owner}
+                name="owner"
+                onChange={formik.handleChange}
+                error={Boolean(formik.errors.owner)}
+                helperText={
+                  Boolean(formik.errors.owner)
+                    ? formik.errors.owner
+                    : "Please select username"
+                }
+              >
+                {data?.map(el => {
+                  return (
+                    <MenuItem key={el._id} value={el._id}>
+                      {el.username}
+                    </MenuItem>
+                  );
+                })}
+              </TextField>
+            </Grid>
+            <Grid item sm={4} xs={6}>
+              <Button variant="contained" fullWidth type="submit">
+                Submit
+              </Button>
+            </Grid>
           </Grid>
         </form>
-      </FormControl>
-    </Grid>
+      </Paper>
+    </Container>
   );
 };
 

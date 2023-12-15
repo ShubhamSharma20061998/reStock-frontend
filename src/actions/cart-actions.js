@@ -45,8 +45,8 @@ export const startCartItemsListing = () => {
         dispatch(addCartMessage(response.data.message));
       }
     } catch (err) {
-      console.log(err.response.data.errors);
-      dispatch(setServerError(err.response.data.errors));
+      console.log(err);
+      // dispatch(setServerError(err.response.data.errors));
     }
   };
 };

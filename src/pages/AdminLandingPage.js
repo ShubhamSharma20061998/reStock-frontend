@@ -1,24 +1,21 @@
+import React from "react";
 import { Container, Grid } from "@mui/material";
-import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
 import ShopsTable from "../components/shops/ShopsTable";
-import { useDispatch } from "react-redux";
-import { startShopsListing } from "../actions/shops-actions";
+import AdminNav from "../components/admin/admin-nav/AdminNav";
+import styles from "./AdminLanding.module.css";
+
 const AdminLandingPage = () => {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(startShopsListing());
-  }, []);
   return (
-    <Container>
-      <Link to={`/registerShop`}>Create Shop</Link>
-      <Link to={`/create_product`}>Create product</Link>
-      <Grid container>
-        <Grid item>
-          <ShopsTable />
+    <>
+      <AdminNav />
+      <Container>
+        <Grid container>
+          <Grid item className={styles.picTableContainer} md={12} xs={12}>
+            <ShopsTable />
+          </Grid>
         </Grid>
-      </Grid>
-    </Container>
+      </Container>
+    </>
   );
 };
 
