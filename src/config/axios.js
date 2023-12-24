@@ -1,6 +1,6 @@
 import axios from "axios";
 const Axios = axios.create({
-  baseURL: "http://localhost:3090",
+  baseURL: "https://restock-np5e.onrender.com",
   headers: {
     Authorization: localStorage.getItem("token"),
   },

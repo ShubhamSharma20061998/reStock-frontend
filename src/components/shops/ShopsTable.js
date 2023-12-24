@@ -28,7 +28,7 @@ export default function ShopsTable() {
     dispatch(startShopsListing());
   }, []);
   const rows = useSelector(state => {
-    return state?.shops.shopsList;
+    return state.shops.shopsList;
   });
   const handleUpdate = id => {
     navigate(`/shop/${id}`);
