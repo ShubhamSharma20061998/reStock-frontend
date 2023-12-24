@@ -38,7 +38,7 @@ const UserLandingPage = () => {
   }, []);
 
   const data = useSelector(state => {
-    return state.products.products;
+    return state?.products.products;
   });
 
   useEffect(() => {
