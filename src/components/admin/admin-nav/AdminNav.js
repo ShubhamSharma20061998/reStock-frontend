@@ -30,7 +30,7 @@ const AdminNav = props => {
 
   const pages = [
     { title: "Home", path: "/landingPage" },
-    { title: "Profile", path: `/admin-profile/${userID}` },
+    // { title: "Profile", path: `/admin-profile/${userID}` },
     { title: "Create Shop", path: `/registerShop` },
     { title: "Create Product", path: `/create_product` },
   ];
@@ -59,8 +59,6 @@ const AdminNav = props => {
 
   const handleCloseNavMenu = (title, path) => {
     if (title == "Home") {
-      navigate(path);
-    } else if (title == "Profile") {
       navigate(path);
     } else if (title == "Create Shop") {
       navigate(path);

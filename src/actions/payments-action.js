@@ -8,7 +8,6 @@ export const startPayments = (lineItems, totalAmount, email) => {
         totalAmount,
         email,
       });
-      console.log(response.data);
       if (response.status == 200) {
         window.location = response.data.url;
       }

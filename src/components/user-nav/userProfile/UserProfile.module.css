@@ -2,11 +2,13 @@
   width: 100%;
 }
 .formCard {
-  padding: 1rem 0;
+  padding: 2rem;
   width: 50%;
+  border-radius: 1rem !important;
 }
 .mainContainer {
   display: flex !important;
   align-items: center;
   justify-content: center;
+  min-height: 53.8vh;
 }

@@ -32,10 +32,11 @@ const SingleProductView = () => {
     dispatch(startGetProducts());
     dispatch(startCartItemsListing());
   }, []);
+  
   const data = useSelector(state => {
     return state.products.products?.find(el => el._id == product_id);
   });
-  console.log(data);
+
   const message = useSelector(state => {
     return state.cart.message;
   });

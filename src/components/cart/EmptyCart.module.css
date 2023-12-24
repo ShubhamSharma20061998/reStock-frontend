@@ -4,6 +4,7 @@
 }
 .emptyCartImage {
   height: 35rem;
+  padding: 1rem;
 }
 .textContent {
   display: flex;

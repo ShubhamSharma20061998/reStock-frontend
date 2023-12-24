@@ -36,9 +36,9 @@ const UserNav = props => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(startCartItemsListing());
     const res = localStorage.getItem("userID");
     setUserID(res);
+    dispatch(startCartItemsListing());
   }, []);
 
   const settings = [{ title: "Logout", path: "/" }];
@@ -74,6 +74,7 @@ const UserNav = props => {
   const cartData = useSelector(state => {
     return state.cart.selectedItems;
   });
+
   const handleLogoClick = () => {
     navigate("/landingPage");
   };
@@ -152,7 +153,7 @@ const UserNav = props => {
 
           <Box sx={{ flexGrow: 0 }} className={styles.sideNavMenu}>
             <Badge
-              badgeContent={cartData.length}
+              badgeContent={cartData?.length}
               color="secondary"
               className={`${styles.cartBadge} cursorPointer`}
             >

@@ -1,12 +1,5 @@
-import {
-  Box,
-  Button,
-  Container,
-  Grid,
-  IconButton,
-  Typography,
-} from "@mui/material";
-import React, { useEffect } from "react";
+import { Button, Grid, Typography } from "@mui/material";
+import React from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -15,18 +8,15 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import styles from "./OrderCard.module.css";
-import { useDispatch } from "react-redux";
-import { startReceivedOrders } from "../../../actions/orders-actions";
 
 const OrderCard = props => {
-  const dispatch = useDispatch();
   const { orderDate, lineItems, functions, _id } = props;
 
   return (
     <TableContainer
       component={Paper}
       elevation={3}
-      sx={{ marginBottom: "1rem" }}
+      sx={{ marginBottom: "1rem", borderRadius: "1rem" }}
     >
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>

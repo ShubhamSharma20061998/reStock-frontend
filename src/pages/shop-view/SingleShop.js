@@ -138,7 +138,10 @@ const SingleShop = () => {
 
   return (
     <Container>
-      <Card sx={{ minWidth: 275, padding: "2rem 0" }} elevation={2}>
+      <Card
+        sx={{ minWidth: 275, padding: "2rem 0", borderRadius: "1rem" }}
+        elevation={2}
+      >
         <Typography variant="h5" textAlign={"center"} marginBottom={"2rem"}>
           Update Shop
         </Typography>
@@ -154,6 +157,7 @@ const SingleShop = () => {
                 return (
                   <Grid item key={index} md={5}>
                     <TextField
+                      InputProps={{ sx: { borderRadius: "0.5rem" } }}
                       disabled={!isEdit}
                       fullWidth
                       variant={variant}

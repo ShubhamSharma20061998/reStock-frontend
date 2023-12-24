@@ -69,7 +69,11 @@ export default function ShopsTable() {
         transition={Flip}
       />
       {rows.length > 0 ? (
-        <TableContainer component={Paper} elevation={2}>
+        <TableContainer
+          component={Paper}
+          elevation={2}
+          sx={{ borderRadius: "1rem" }}
+        >
           <img src={team} alt="collection" className={styles.tablePic} />
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>

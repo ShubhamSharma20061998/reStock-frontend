@@ -14,7 +14,7 @@ const EmptyCart = props => {
   return (
     <Container>
       <Paper elevation={3} className={styles.contentContainer}>
-        <Grid container>
+        <Grid container >
           <Grid item className={styles.imageContainer}>
             <img
               src={emptyCart}

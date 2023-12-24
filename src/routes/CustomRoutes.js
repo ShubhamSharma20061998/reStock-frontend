@@ -14,6 +14,7 @@ import AdminNav from "../components/admin/admin-nav/AdminNav";
 import CreateProductForm from "../components/admin/products/CreateProductForm";
 import SingleProductView from "../components/admin/products/SingleProductView";
 import OrdersNotification from "../components/admin/pages/OrdersNotification";
+import ProjectFooter from "../components/footer/AdminFooter";
 
 const CustomRoutes = () => {
   let myRoutes = useRoutes([
@@ -35,6 +36,7 @@ const CustomRoutes = () => {
         <>
           <UserNav />
           <SingleProductView />
+          <ProjectFooter />
         </>
       ),
     },
@@ -44,6 +46,7 @@ const CustomRoutes = () => {
         <>
           <UserNav />
           <Cart />
+          <ProjectFooter />
         </>
       ),
     },
@@ -53,6 +56,7 @@ const CustomRoutes = () => {
         <>
           <UserNav />
           <UserProfile />
+          <ProjectFooter />
         </>
       ),
     },
@@ -62,14 +66,7 @@ const CustomRoutes = () => {
         <>
           <UserNav />
           <UserOrders />
-        </>
-      ),
-    },
-    {
-      path: "/admin-profile/:id",
-      element: (
-        <>
-          <AdminNav />
+          <ProjectFooter />
         </>
       ),
     },
@@ -79,6 +76,7 @@ const CustomRoutes = () => {
         <>
           <AdminNav />
           <SingleShop />
+          <ProjectFooter />
         </>
       ),
     },
@@ -88,6 +86,7 @@ const CustomRoutes = () => {
         <>
           <AdminNav />
           <CreateProductForm />
+          <ProjectFooter />
         </>
       ),
     },
@@ -97,6 +96,7 @@ const CustomRoutes = () => {
         <>
           <AdminNav />
           <ShopRegisterForm />
+          <ProjectFooter />
         </>
       ),
     },
@@ -106,6 +106,7 @@ const CustomRoutes = () => {
         <>
           <AdminNav />
           <OrdersNotification />
+          <ProjectFooter />
         </>
       ),
     },

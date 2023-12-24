@@ -64,8 +64,7 @@ export const startUpdateUser = (id, formData) => {
     try {
       const response = await Axios.put(`/api/update_users/${id}`, formData);
       if (response.status == 200) {
-        console.log(response.data);
-        // dispatch(updateUser(response.data));
+        dispatch(updateUser(response.data));
       }
     } catch (err) {
       console.log(err);

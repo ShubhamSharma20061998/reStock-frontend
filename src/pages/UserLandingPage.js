@@ -15,6 +15,8 @@ import UserNav from "../components/user-nav/UserNav";
 import { startGetProducts } from "../actions/products-action";
 import styles from "./UserLandingPage.module.css";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+import ProjectFooter from "../components/footer/AdminFooter";
+import { startCartItemsListing } from "../actions/cart-actions";
 
 const UserLandingPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -32,6 +34,7 @@ const UserLandingPage = () => {
 
   useEffect(() => {
     dispatch(startGetProducts());
+    dispatch(startCartItemsListing());
   }, []);
 
   const data = useSelector(state => {
@@ -135,6 +138,7 @@ const UserLandingPage = () => {
               onChange={selectedData}
             />
           </Container>
+          <ProjectFooter />
         </>
       ) : (
         <Spinner />

@@ -68,7 +68,6 @@ const Cart = () => {
   const rows = useSelector(state => {
     return state.cart.selectedItems;
   });
-  console.log(rows);
 
   const payment = useSelector(state => {
     return state.payments.payment;
@@ -111,10 +110,6 @@ const Cart = () => {
     };
     return orderData;
   };
-  console.log("rows", rows);
-  if (rows.length > 0) {
-    console.log(orderCreation(rows));
-  }
 
   const requestObject = rows => {
     const lineItems = rows.map(el => {
@@ -157,7 +152,7 @@ const Cart = () => {
   return (
     <>
       {rows.length > 0 ? (
-        <Container>
+        <Container sx={{ marginBottom: "6rem", minHeight: "44vh" }}>
           <ToastContainer
             position="top-right"
             autoClose={5000}

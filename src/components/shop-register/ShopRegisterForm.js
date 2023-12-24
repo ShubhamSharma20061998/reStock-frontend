@@ -191,7 +191,14 @@ const ShopRegisterForm = () => {
   ];
   return (
     <Container>
-      <Paper elevation={3} sx={{ padding: "2rem 2rem", position: "relative" }}>
+      <Paper
+        elevation={3}
+        sx={{
+          padding: "2rem 2rem",
+          position: "relative",
+          borderRadius: "1rem",
+        }}
+      >
         <img src={boarding} alt="boarding" className={styles.boardingImage} />
         <Typography variant="h5" textAlign={"center"} marginBottom={"2rem"}>
           Shop Registeration Form
@@ -206,6 +213,7 @@ const ShopRegisterForm = () => {
                 return (
                   <Grid item key={index} sm={5} xs={12}>
                     <TextField
+                      InputProps={{ sx: { borderRadius: "0.5rem" } }}
                       fullWidth
                       variant={variant}
                       label={label}

@@ -81,6 +81,7 @@ const UserProfile = () => {
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <TextField
+                    InputProps={{ sx: { borderRadius: "0.5rem" } }}
                     fullWidth
                     value={username}
                     error={Boolean(formErrors[0])}
@@ -93,6 +94,7 @@ const UserProfile = () => {
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
+                    InputProps={{ sx: { borderRadius: "0.5rem" } }}
                     fullWidth
                     error={Boolean(formErrors[1])}
                     value={email}

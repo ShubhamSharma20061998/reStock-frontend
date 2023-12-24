@@ -201,7 +201,7 @@ const CreateProductForm = () => {
   return (
     <Container sx={{ position: "relative" }}>
       <img src={products} alt="products" className={styles.productImage} />
-      <Card sx={{ padding: "2rem 0" }} elevation={2}>
+      <Card sx={{ padding: "2rem 0", borderRadius: "1rem" }} elevation={2}>
         <form onSubmit={handleSubmit} encType="multipart/form-data">
           <Typography variant="h5" textAlign={"center"} marginBottom={"2rem"}>
             Products Registeration Form
@@ -233,7 +233,7 @@ const CreateProductForm = () => {
                     <TextField
                       fullWidth
                       InputProps={
-                        rupeeIcon
+                        (rupeeIcon
                           ? {
                               startAdornment: (
                                 <InputAdornment position="start">
@@ -241,7 +241,8 @@ const CreateProductForm = () => {
                                 </InputAdornment>
                               ),
                             }
-                          : null
+                          : null,
+                        { sx: { borderRadius: "0.5rem" } })
                       }
                       type={Boolean(type) ? type : ""}
                       inputProps={

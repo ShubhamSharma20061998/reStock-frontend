@@ -1,0 +1,12 @@
+.footerLogo {
+  width: 5rem;
+  height: auto;
+}
+.footer {
+  background-color: #1976d2;
+  margin-top: 1.5rem;
+  color: #fff;
+}
+.connectIcon {
+  color: #fff;
+}

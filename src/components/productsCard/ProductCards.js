@@ -68,7 +68,7 @@ const ProductCards = props => {
         pauseOnHover
         theme="light"
       />
-      <Card>
+      <Card className={styling.transformCard}>
         <CardMedia
           component="img"
           alt="green iguana"

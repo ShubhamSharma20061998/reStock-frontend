@@ -4,10 +4,13 @@
   box-sizing: border-box;
 }
 #root {
-  background-color: #e8e8e8;
+  background-color: #fff6cd;
   min-height: 100vh;
   width: 100%;
 }
 .cursorPointer {
   cursor: pointer;
+}
+.widthFitContent {
+  width: fit-content;
 }
