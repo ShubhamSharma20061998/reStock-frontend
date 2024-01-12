@@ -75,16 +75,7 @@ const LoginForm = () => {
               </Grid>
               {textfields.map(
                 (
-                  {
-                    id,
-                    label,
-                    variant,
-                    className,
-                    error,
-                    value,
-                    type,
-                    stateHandler,
-                  },
+                  { id, label, variant, error, value, type, stateHandler },
                   index
                 ) => {
                   return (
@@ -108,6 +99,7 @@ const LoginForm = () => {
                 <Button
                   variant="contained"
                   onClick={handleSubmit}
+                  className={styles.submitButton}
                   fullWidth
                   sx={{ background: "#FF6584" }}
                 >
