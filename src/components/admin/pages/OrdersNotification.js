@@ -6,7 +6,6 @@ import {
   startOrderAccept,
   startOrderDeletion,
 } from "../../../actions/orders-actions";
-import Spinner from "../../spinner/Spinner";
 import EmptyOrders from "./EmptyOrders";
 
 const OrdersNotification = () => {
@@ -23,7 +22,7 @@ const OrdersNotification = () => {
   };
 
   return (
-    <Container sx={{ padding: "1rem 0" }}>
+    <Container sx={{ padding: "1rem 0", minHeight: "55vh" }}>
       {receivedOrders.length > 0 ? (
         receivedOrders?.map(el => {
           return (

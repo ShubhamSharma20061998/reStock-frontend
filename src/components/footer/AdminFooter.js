@@ -54,7 +54,7 @@ const ProjectFooter = () => {
   return (
     <footer className={styles.footer}>
       <Container sx={{ padding: "1.5rem" }}>
-        <Grid container justifyContent={"center"}>
+        <Grid container justifyContent={"center"} spacing={{ xs: "1rem" }}>
           <Grid item md={4} xs={12}>
             <img
               src={logo}

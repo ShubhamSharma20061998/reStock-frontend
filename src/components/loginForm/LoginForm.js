@@ -57,20 +57,19 @@ const LoginForm = () => {
   return (
     <>
       <Container>
-        <Box className={styles.container}>
-          <Stack className={styles.formContainer} direction={"row"}>
-            <Grid container>
-              <Grid item className={styles.loginImageContainer}>
-                <img src={loginFormImage} alt="loginImage" />
-              </Grid>
+        <Box className={`${styles.container}`}>
+          <Grid container className={styles.formContainer}>
+            <Grid item className={styles.loginImageContainer} md={6}>
+              <img src={loginFormImage} alt="loginImage" />
             </Grid>
             <Grid
               container
               direction={"column"}
               className={styles.registrationForm}
               spacing={2}
+              md={6}
             >
-              <Grid item textAlign={"center"}>
+              <Grid item textAlign={"center"} width={"100%"}>
                 <h1 className={styles.heading_h1}>Welcome</h1>
                 <h3 style={{ color: "#6C63FF" }}>Login to continue</h3>
               </Grid>
@@ -89,12 +88,11 @@ const LoginForm = () => {
                   index
                 ) => {
                   return (
-                    <Grid item key={index}>
+                    <Grid item key={index} width={"80%"}>
                       <TextField
                         id={id}
                         variant={variant}
                         label={label}
-                        className={className}
                         value={value}
                         onChange={e => stateHandler(e.target.value)}
                         error={Boolean(error)}
@@ -106,18 +104,18 @@ const LoginForm = () => {
                   );
                 }
               )}
-              <Grid item>
+              <Grid item width={"80%"}>
                 <Button
                   variant="contained"
                   onClick={handleSubmit}
+                  fullWidth
                   sx={{ background: "#FF6584" }}
-                  className={styles.submitButton}
                 >
                   Submit
                 </Button>
               </Grid>
             </Grid>
-          </Stack>
+          </Grid>
         </Box>
       </Container>
     </>
